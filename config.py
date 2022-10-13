@@ -14,14 +14,16 @@
 
 import logging, hashlib
 
-MQTT_HOST = "localhost"
+MQTT_HOST = "homeassistant.local"
 MQTT_PORT = 1883
 MQTT_USER = None
 MQTT_PASS = None
 
 HA_SENSOR_NAME = "Sound Detected"
 HA_SENSOR_UUID = hashlib.md5(HA_SENSOR_NAME.encode('utf-8')).hexdigest()
+HA_SENSOR_EXPIRE_AFTER = 10
 
+TF_MODEL = "model/yamnet.tflite"
 TF_NUM_THREADS = 2
 TF_SCORE_THRESHOLD = 0.8
 TF_MAX_RESULTS = 5

@@ -12,6 +12,8 @@ Open `config.py` and set the following variables:
 * __MQTT_PASS__: MQTT server password _(optional)_
 * __HA_SENSOR_NAME__: Home Assistant sensor name
 * __HA_SENSOR_UUID__: Home Assistant sensor UUID
+* __HA_SENSOR_EXPIRE_AFTER__: How many seconds until Home Assistant considers the data to be stale
+* __TF_MODEL__: TensorFlow model filename
 * __TF_NUM_THREADS__: TensorFlow number of threads
 * __TF_SCORE_THRESHOLD__: TensorFlow minimum score
 * __TF_MAX_RESULTS__: TensorFlow maximum results
