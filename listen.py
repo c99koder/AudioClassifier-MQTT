@@ -20,12 +20,19 @@ from tflite_support.task import core
 from tflite_support.task import processor
 from config import *
 
+def on_disconnect(client, userdata, rc):
+    if rc != 0:
+        logging.error("Disconnected from MQTT server, reconnecting...")
+        client.reconnect()
+
 def listen():
     logging.info("Connecting to MQTT host %s:%i", MQTT_HOST, MQTT_PORT)
     client = mqtt.Client()
+    client.enable_logger(logging)
+    client.on_disconnect = on_disconnect
     client.username_pw_set(username=MQTT_USER, password=MQTT_PASS)
     try:
-        client.connect(MQTT_HOST, MQTT_PORT)
+        client.connect(MQTT_HOST, MQTT_PORT, keepalive=MQTT_KEEPALIVE)
     except OSError as err:
         logging.error("Failed to connect to MQTT server: %s", err)
         sys.exit(1)
@@ -62,6 +69,7 @@ def listen():
     try:
         while True:
             logging.debug("Recording")
+            client.loop()
             time.sleep(input_length_in_second)
 
             logging.debug("Analyzing audio")

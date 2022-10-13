@@ -14,10 +14,11 @@
 
 import logging, hashlib
 
-MQTT_HOST = "homeassistant.local"
+MQTT_HOST = "pi.local"
 MQTT_PORT = 1883
 MQTT_USER = None
 MQTT_PASS = None
+MQTT_KEEPALIVE = 60
 
 HA_SENSOR_NAME = "Sound Detected"
 HA_SENSOR_UUID = hashlib.md5(HA_SENSOR_NAME.encode('utf-8')).hexdigest()

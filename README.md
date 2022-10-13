@@ -10,6 +10,7 @@ Open `config.py` and set the following variables:
 * __MQTT_PORT__: MQTT server port
 * __MQTT_USER__: MQTT server username _(optional)_
 * __MQTT_PASS__: MQTT server password _(optional)_
+* __MQTT_KEEPALIVE__: MQTT server keepalive interval
 * __HA_SENSOR_NAME__: Home Assistant sensor name
 * __HA_SENSOR_UUID__: Home Assistant sensor UUID
 * __HA_SENSOR_EXPIRE_AFTER__: How many seconds until Home Assistant considers the data to be stale
