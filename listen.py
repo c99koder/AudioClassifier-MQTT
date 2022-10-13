@@ -37,6 +37,7 @@ def listen():
                 'icon': 'mdi:ear-hearing',
                 'state_topic': "homeassistant/sensor/" + HA_SENSOR_UUID + "/state",
                 'json_attributes_topic': "homeassistant/sensor/" + HA_SENSOR_UUID + "/attributes",
+                'expire_after': 30,
                 'availability_mode': 'latest',
                 'availability_topic': "homeassistant/sensor/" + HA_SENSOR_UUID + "/available"
                 }), retain=True).wait_for_publish()
@@ -70,12 +71,22 @@ def listen():
             logging.debug("Got %i categories", len(result.classifications[0].categories))
             if len(result.classifications[0].categories) > 0:
                 for category in result.classifications[0].categories:
-                    logging.info("Prediction: %s (%f)", category.category_name, category.score)
-                    client.publish("homeassistant/sensor/" + HA_SENSOR_UUID + "/state", category.category_name, retain=True).wait_for_publish()
-                    client.publish("homeassistant/sensor/" + HA_SENSOR_UUID + "/attributes", json.dumps({'score': category.score}), retain=True).wait_for_publish()
+                    if category.category_name == "Silence":
+                        logging.warning("No audio detected from microphone")
+                        client.publish("homeassistant/sensor/" + HA_SENSOR_UUID + "/state", None, retain=True).wait_for_publish()
+                        client.publish("homeassistant/sensor/" + HA_SENSOR_UUID + "/attributes", None, retain=True).wait_for_publish()
+                    else:
+                        logging.info("Prediction: %s (%f)", category.category_name, category.score)
+                        client.publish("homeassistant/sensor/" + HA_SENSOR_UUID + "/state", category.category_name, retain=True).wait_for_publish()
+                        client.publish("homeassistant/sensor/" + HA_SENSOR_UUID + "/attributes", json.dumps({'score': category.score}), retain=True).wait_for_publish()
+            else:
+                client.publish("homeassistant/sensor/" + HA_SENSOR_UUID + "/state", None, retain=True).wait_for_publish()
+                client.publish("homeassistant/sensor/" + HA_SENSOR_UUID + "/attributes", None, retain=True).wait_for_publish()
 
     finally:
         logging.info("Shutting down")
+        client.publish("homeassistant/sensor/" + HA_SENSOR_UUID + "/state", None, retain=True).wait_for_publish()
+        client.publish("homeassistant/sensor/" + HA_SENSOR_UUID + "/attributes", None, retain=True).wait_for_publish()
         client.publish("homeassistant/sensor/" + HA_SENSOR_UUID + "/available", 'offline', retain=True).wait_for_publish()
         client.disconnect()
 
