@@ -45,7 +45,7 @@ $ python3 ./listen.py
 
 The sensor is now available in Home Assistant and can be used to trigger automations:
 
-![Home Assistant Screenshot](home-assistant.png)
+![Home Assistant Screenshot](images/home-assistant.png)
 
 ## License
 

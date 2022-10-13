@@ -42,7 +42,7 @@ def listen():
                 }), retain=True).wait_for_publish()
 
     logging.info("Loading TensorFlow model")
-    base_options = core.BaseOptions(file_name='yamnet.tflite', num_threads=TF_NUM_THREADS)
+    base_options = core.BaseOptions(file_name='model/yamnet.tflite', num_threads=TF_NUM_THREADS)
     classification_options = processor.ClassificationOptions(max_results=TF_MAX_RESULTS, score_threshold=TF_SCORE_THRESHOLD)
     options = audio.AudioClassifierOptions(base_options=base_options, classification_options=classification_options)
     classifier = audio.AudioClassifier.create_from_options(options)
