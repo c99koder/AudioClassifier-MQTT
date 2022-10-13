@@ -14,7 +14,7 @@
 
 import logging, hashlib
 
-MQTT_HOST = "pi.local"
+MQTT_HOST = "localhost"
 MQTT_PORT = 1883
 MQTT_USER = None
 MQTT_PASS = None

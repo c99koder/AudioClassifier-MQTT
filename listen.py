@@ -21,7 +21,7 @@ from tflite_support.task import processor
 from config import *
 
 def listen():
-    logging.info("Connecting to MQTT host %s:%i", 'localhost', MQTT_PORT)
+    logging.info("Connecting to MQTT host %s:%i", MQTT_HOST, MQTT_PORT)
     client = mqtt.Client()
     client.username_pw_set(username=MQTT_USER, password=MQTT_PASS)
     try:
