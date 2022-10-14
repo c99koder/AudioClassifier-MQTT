@@ -22,8 +22,7 @@ from config import *
 
 def on_disconnect(client, userdata, rc):
     if rc != 0:
-        logging.error("Disconnected from MQTT server, reconnecting...")
-        client.reconnect()
+        logging.error("Disconnected from MQTT server")
 
 def listen():
     logging.info("Connecting to MQTT host %s:%i", MQTT_HOST, MQTT_PORT)
@@ -81,10 +80,12 @@ def listen():
                 for category in result.classifications[0].categories:
                     if category.category_name == "Silence":
                         logging.warning("No audio detected from microphone")
+                    elif category.category_name in TF_IGNORED_CATEGORIES:
+                        logging.debug("Ignoring category: %s", category.category_name)
                     else:
                         logging.info("Prediction: %s (%f)", category.category_name, category.score)
-                        client.publish("homeassistant/sensor/" + HA_SENSOR_UUID + "/state", category.category_name, retain=True).wait_for_publish()
-                        client.publish("homeassistant/sensor/" + HA_SENSOR_UUID + "/attributes", json.dumps({'score': category.score}), retain=True).wait_for_publish()
+                        client.publish("homeassistant/sensor/" + HA_SENSOR_UUID + "/state", category.category_name, retain=True)
+                        client.publish("homeassistant/sensor/" + HA_SENSOR_UUID + "/attributes", json.dumps({'score': category.score}), retain=True)
 
     finally:
         logging.info("Shutting down")
