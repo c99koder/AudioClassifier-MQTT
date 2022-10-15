@@ -16,12 +16,11 @@
 
 FROM python:3.9-slim-buster
 WORKDIR /app
-COPY requirements.txt requirements.txt
-RUN pip3 install -r requirements.txt
 RUN apt-get update
 RUN apt-get -y upgrade
 RUN apt-get -y install libusb-1.0 libportaudio2
 RUN apt-get clean
 RUN rm -rf /var/lib/apt/lists/*
 COPY . .
+RUN pip3 install -r requirements.txt
 ENTRYPOINT [ "python3", "listen.py"]
