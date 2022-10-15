@@ -34,7 +34,7 @@ python3 --version
 Install required python3 modules:
 
 ```shell
-pip3 install tflite_support
+pip3 install -r requirements.txt
 ```
 
 On Linux, install the PortAudio library:
@@ -52,6 +52,20 @@ python3 ./listen.py
 The sensor is now available in Home Assistant and can be used to trigger automations:
 
 ![Home Assistant Screenshot](images/home-assistant.png)
+
+## Docker
+
+To run this script as a Docker container, modify the `config.py` file as decribed above and then build the image:
+
+```shell
+docker build -t audioclassifier-mqtt .
+```
+
+Now create a container with access to the system's audio device (`/dev/dsp` is the default) and `host` networking to communicate with the MQTT server:
+
+```shell
+docker run --name audioclassifier --restart=always -d --device /dev/dsp --network=host audioclassifier-mqtt
+```
 
 ## License
 

@@ -13,7 +13,7 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 
-import time, json, sys, signal, logging, colorlog
+import time, sys, signal, logging, colorlog
 from tflite_support.task import audio
 from tflite_support.task import core
 from tflite_support.task import processor
