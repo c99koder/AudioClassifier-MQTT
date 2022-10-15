@@ -28,7 +28,7 @@ TF_MODEL = "model/yamnet.tflite"
 TF_NUM_THREADS = 2
 TF_SCORE_THRESHOLD = 0.8
 TF_MAX_RESULTS = 5
-TF_IGNORED_CATEGORIES = ["Silence", "White noise"]
+TF_IGNORED_CATEGORIES = ["Silence", "White noise", "Noise"]
 
 LOG_LEVEL = logging.INFO
 LOG_FORMAT = '%(asctime)s %(log_color)s%(message)s'
